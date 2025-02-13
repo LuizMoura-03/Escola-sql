@@ -2,6 +2,7 @@ package com.sql.Escola.services;
 
 import com.sql.Escola.models.AlunoModel;
 import com.sql.Escola.repositors.AlunoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,11 +10,9 @@ import java.util.Optional;
 
 @Service
 public class AlunoService {
-    private final AlunoRepository alunoRepository;
 
-    public AlunoService(AlunoRepository alunoRepository) {
-        this.alunoRepository = alunoRepository;
-    }
+    @Autowired
+    private AlunoRepository alunoRepository;
 
     public List<AlunoModel> listarAlunos() {
         return alunoRepository.findAll();
@@ -25,6 +24,22 @@ public class AlunoService {
 
     public AlunoModel salvarAluno(AlunoModel aluno) {
         return alunoRepository.save(aluno);
+    }
+
+    public AlunoModel atualizar(int id, AlunoModel alunoAtualizado) {
+        AlunoModel aluno = alunoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + id));
+
+        aluno.setNome(alunoAtualizado.getNome());
+        aluno.setIdade(alunoAtualizado.getIdade());
+        return alunoRepository.save(aluno);
+    }
+
+    public void deletarAluno(int id) {
+        if (!alunoRepository.existsById(id)) {
+            throw new RuntimeException("Aluno não encontrado com ID: " + id);
+        }
+        alunoRepository.deleteById(id);
     }
 
 }
