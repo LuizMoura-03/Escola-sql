@@ -1,6 +1,7 @@
 package com.sql.Escola.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
@@ -16,6 +17,7 @@ public class AlunoModel {
     String nome;
 
     @Min(value = 0, message = "A idade não pode ser menor que zero")
+    @Max(value = 150, message = "A idade não pode ser um valor absurdo, maior que 150.")
     private int idade;
 
     public int getId() {
