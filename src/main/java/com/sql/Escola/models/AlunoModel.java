@@ -1,6 +1,8 @@
 package com.sql.Escola.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "alunos")
@@ -9,7 +11,11 @@ public class AlunoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotBlank(message = "o nome não pode ficar em branco.")
     String nome;
+
+    @Min(value = 0, message = "A idade não pode ser menor que zero")
     private int idade;
 
     public int getId() {
